@@ -498,40 +498,20 @@ def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
 # No div is ever opened in one call and closed in another.
 
 def render_hero():
-    b64 = hero_b64()
-    if b64:
-        bg_css = (
-            f'background-image:url("data:image/jpeg;base64,{b64}");'
-            'background-size:cover;background-position:center;'
-        )
-        overlay = (
-            '<div style="position:absolute;inset:0;'
-            'background:rgba(20,35,28,0.62);"></div>'
-        )
-    else:
-        bg_css = "background:#2C4A3E;"
-        overlay = ""
-
-    st.markdown(f"""
-<div style="position:relative;width:100%;height:480px;{bg_css}
-            display:flex;align-items:center;justify-content:center;">
-  {overlay}
-  <div style="text-align:center;padding:2rem;position:relative;z-index:1;">
-    <p style="font-family:'Lato',sans-serif;font-size:13px;letter-spacing:4px;
-              color:#8B6914;text-transform:uppercase;margin-bottom:16px;">
-      Garden Route &middot; Sudafrica &middot; Agosto 2025
-    </p>
-    <h1 style="font-family:'Playfair Display',serif;font-size:clamp(36px,6vw,64px);
-               font-weight:700;color:#FAFAF7;margin:0 0 16px 0;line-height:1.05;">
-      Sud&aacute;frica
-    </h1>
-    <div style="width:60px;height:2px;background:#8B6914;margin:0 auto 20px;"></div>
-    <p style="font-family:'Lato',sans-serif;font-size:15px;color:#C8BFB0;
-              letter-spacing:2px;margin:0;">
-      29 AGO &mdash; 2 SEP &nbsp;&middot;&nbsp; 1.534 km
-      &nbsp;&middot;&nbsp; 5 d&iacute;as &nbsp;&middot;&nbsp; 10 paradas
-    </p>
-  </div>
+    st.markdown("""
+<div style="background:#2C4A3E; padding:36px 48px; text-align:center;">
+  <p style="font-family:'Lato',sans-serif; font-size:11px; letter-spacing:4px; color:#FFB81C; text-transform:uppercase; margin:0 0 10px 0;">Garden Route &middot; Sud&aacute;frica &middot; Agosto 2025</p>
+  <h1 style="font-family:'Playfair Display',serif; font-size:42px; font-weight:700; color:#FAFAF7; margin:0 0 12px 0; line-height:1.1;">Sud&aacute;frica &middot; Garden Route</h1>
+  <div style="width:50px; height:2px; background:#FFB81C; margin:0 auto 14px;"></div>
+  <p style="font-family:'Lato',sans-serif; font-size:14px; color:#C8BFB0; letter-spacing:1px; margin:0;">29 AGO &mdash; 2 SEP &nbsp;&middot;&nbsp; 1.534 km &nbsp;&middot;&nbsp; 5 d&iacute;as &nbsp;&middot;&nbsp; 10 paradas</p>
+</div>
+<div style="display:flex; height:5px; width:100%;">
+  <div style="flex:1; background:#000000;"></div>
+  <div style="flex:1; background:#007A4D;"></div>
+  <div style="flex:1; background:#FFB81C;"></div>
+  <div style="flex:1; background:#DE3831;"></div>
+  <div style="flex:1; background:#002395;"></div>
+  <div style="flex:1; background:#FFFFFF;"></div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -547,17 +527,17 @@ def render_stats_bar():
         ("1",        "Pa&iacute;s"),
     ]
     items_html = "".join(
-        f'<div style="text-align:center;flex:1;padding:0 8px;">'
-        f'<div style="font-family:\'Playfair Display\',serif;font-size:26px;'
+        f'<div style="text-align:center;flex:1;padding:0 6px;">'
+        f'<div style="font-family:\'Playfair Display\',serif;font-size:22px;'
         f'font-weight:600;color:#1A1A1A;line-height:1;">{val}</div>'
         f'<div style="font-family:\'Lato\',sans-serif;font-size:10px;letter-spacing:2px;'
-        f'text-transform:uppercase;color:#6B6560;margin-top:6px;">{label}</div>'
+        f'text-transform:uppercase;color:#6B6560;margin-top:4px;">{label}</div>'
         f'</div>'
         for val, label in stats
     )
     st.markdown(f"""
 <div style="background:#F2EDE4;border-top:1px solid #DDD8D0;
-            border-bottom:1px solid #DDD8D0;padding:28px 48px;">
+            border-bottom:1px solid #DDD8D0;padding:14px 48px;">
   <div style="display:flex;justify-content:space-around;align-items:center;
               max-width:900px;margin:0 auto;">
     {items_html}
