@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 """
-Sudáfrica · Garden Route 2025
+Sudáfrica · Garden Route 2026
 Luxury safari aesthetic. Playfair Display + Lato. Earth tones. Zero emojis.
 RULE: every st.markdown() HTML block is self-contained — no split divs, ever.
 """
@@ -16,7 +16,7 @@ from PIL import Image, ImageDraw
 # ─── PAGE CONFIG ─────────────────────────────────────────────────────────────
 st.set_page_config(
     layout="wide",
-    page_title="Sudáfrica · Garden Route 2025",
+    page_title="Sudáfrica · Garden Route 2026",
 )
 
 # ─── GLOBAL CSS ───────────────────────────────────────────────────────────────
@@ -204,6 +204,11 @@ DAYS = {
         "date": "25 Ago", "km": "~120 km", "hours": "~2h traslado",
         "route": "Vuelo — Port Elizabeth — Woodlands Safari Estate",
         "alert": None,
+        "day_intro": (
+            "Vuelo MAD → JNB: sale el 24 ago a las 23:45h — llega el 25 ago a las 09:50h a Johannesburgo. "
+            "Conexion JNB → PLZ: Airlink 4Z 789, sale 13:20h, llega 15:05h a Port Elizabeth. "
+            "Tiempo de conexion en Johannesburgo: ~3h 30min — estar atentos a la puerta de embarque."
+        ),
         "stops": [
             {
                 "name": "Aeropuerto de Port Elizabeth (Gqeberha)",
@@ -493,9 +498,14 @@ DAYS = {
     },
     4: {
         "title": "Ciudad del Cabo — Vuelo",
-        "date": "1 Sep", "km": "Vuelo 1.400 km", "hours": "2h vuelo",
+        "date": "1 Sep", "km": "Vuelo 1.400 km", "hours": "2h 5m vuelo",
         "route": "Ciudad del Cabo — Aeropuerto CPT — Johannesburgo",
-        "alert": "Salir del hotel a las 15:30h — Vuelo CPT a JNB 17:30h — Llegada Joburg 20:00h",
+        "alert": "Salir del hotel a las 15:00h — Fly Safair FA102 · CPT 17:25h → JNB 19:30h",
+        "flight_details": {
+            "from_code": "CPT", "from_name": "Ciudad del Cabo",
+            "dep": "17:25h", "label": "Fly Safair FA102 · 2h 5m",
+            "to_code": "JNB", "to_name": "Johannesburgo",
+        },
         "stops": [
             {
                 "name": "Bo-Kaap",
@@ -668,7 +678,7 @@ def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
 def render_hero():
     st.markdown("""
 <div style="background:#2C4A3E; padding:36px 48px; text-align:center;">
-  <p style="font-family:'Lato',sans-serif; font-size:11px; letter-spacing:4px; color:#FFB81C; text-transform:uppercase; margin:0 0 10px 0;">Garden Route &middot; Sud&aacute;frica &middot; Agosto 2025</p>
+  <p style="font-family:'Lato',sans-serif; font-size:11px; letter-spacing:4px; color:#FFB81C; text-transform:uppercase; margin:0 0 10px 0;">Garden Route &middot; Sud&aacute;frica &middot; Agosto 2026</p>
   <h1 style="font-family:'Playfair Display',serif; font-size:42px; font-weight:700; color:#FAFAF7; margin:0 0 12px 0; line-height:1.1;">Sud&aacute;frica &middot; Garden Route</h1>
   <div style="width:50px; height:2px; background:#FFB81C; margin:0 auto 14px;"></div>
   <p style="font-family:'Lato',sans-serif; font-size:14px; color:#C8BFB0; letter-spacing:1px; margin:0;">25 AGO &mdash; 2 SEP &nbsp;&middot;&nbsp; 1.684 km &nbsp;&middot;&nbsp; 8 d&iacute;as &nbsp;&middot;&nbsp; 13 paradas</p>
@@ -846,10 +856,11 @@ def render_day(day_n: int):
     # Vuelo (dia 4) — native metrics
     if data.get("flight"):
         st.write("")
+        fd = data.get("flight_details", {})
         c1, c2, c3 = st.columns(3)
-        c1.metric("Origen", "CPT", "Ciudad del Cabo")
-        c2.metric("Salida", "17:30h", "aprox. 2h de vuelo")
-        c3.metric("Destino", "JNB", "Johannesburgo")
+        c1.metric("Origen", fd.get("from_code", "CPT"), fd.get("from_name", "Ciudad del Cabo"))
+        c2.metric("Salida", fd.get("dep", "17:25h"), fd.get("label", "aprox. 2h de vuelo"))
+        c3.metric("Destino", fd.get("to_code", "JNB"), fd.get("to_name", "Johannesburgo"))
 
     # Intro del dia (bloque informativo antes de la primera parada)
     if data.get("day_intro"):
@@ -884,6 +895,89 @@ def render_day(day_n: int):
     render_gallery(day_n, data)
     st.write("")
 
+# ─── VUELOS ──────────────────────────────────────────────────────────────────
+FLIGHTS = [
+    {
+        "label": "Vuelo 1", "desc": "Salida de Espana",
+        "from_": "Madrid (MAD)", "to": "Johannesburgo (JNB)",
+        "date": "24 agosto 2026",
+        "dep": "23:45h", "arr": "09:50h del 25 ago (+1 dia)",
+        "airline": None, "flight_num": None, "duration": None,
+        "baggage": "1 cabina 8 kg (20x44x55 cm) + 1 facturado 20 kg (37x68x102 cm) por persona",
+        "notes": [],
+    },
+    {
+        "label": "Vuelo 2", "desc": "Conexion a Port Elizabeth",
+        "from_": "Johannesburgo (JNB)", "to": "Port Elizabeth (PLZ)",
+        "date": "25 agosto 2026",
+        "dep": "13:20h", "arr": "15:05h",
+        "airline": "Airlink", "flight_num": "4Z 789", "duration": "1h 45m",
+        "baggage": None,
+        "notes": [
+            "Check-in online requiere datos de pasaporte al menos 24h antes",
+            "Conexion desde vuelo 1: ~3h 30min en Johannesburgo — estar atentos a la puerta de embarque",
+        ],
+    },
+    {
+        "label": "Vuelo 3", "desc": "Ciudad del Cabo a Johannesburgo",
+        "from_": "Ciudad del Cabo (CPT)", "to": "Johannesburgo (JNB)",
+        "date": "1 septiembre 2026",
+        "dep": "17:25h", "arr": "19:30h",
+        "airline": "Fly Safair", "flight_num": "FA 102", "duration": "2h 5m",
+        "baggage": "1 cabina 7 kg (23x36x56 cm) + 1 facturado con seguro 20 kg (28x52x78 cm)",
+        "notes": ["Salir del hotel a las 15:00h como maximo"],
+    },
+    {
+        "label": "Vuelo 4", "desc": "Vuelta a Espana",
+        "from_": "Johannesburgo (JNB)", "to": "Madrid (MAD)",
+        "date": "3 septiembre 2026",
+        "dep": "18:55h", "arr": "05:05h del 4 sep (+1 dia)",
+        "airline": None, "flight_num": None, "duration": None,
+        "baggage": None,
+        "notes": [],
+    },
+]
+
+
+def render_flights():
+    render_section_title("Vuelos del grupo", "Los Vuelos", top=40)
+    for f in FLIGHTS:
+        with st.container(border=True):
+            col_route, col_detail = st.columns([3, 2], gap="large")
+            with col_route:
+                st.markdown(
+                    f"<p style='font-family:Lato,sans-serif;font-size:10px;letter-spacing:3px;"
+                    f"text-transform:uppercase;color:#8B6914;margin:0 0 4px 0;'>"
+                    f"{f['label']} &nbsp;&middot;&nbsp; {f['desc']}</p>",
+                    unsafe_allow_html=True,
+                )
+                st.markdown(
+                    f"<h3 style='font-family:Playfair Display,serif;font-size:22px;"
+                    f"margin:0 0 8px 0;color:#1A1A1A;'>"
+                    f"{f['from_']} &rarr; {f['to']}</h3>",
+                    unsafe_allow_html=True,
+                )
+                st.markdown(
+                    f"<p style='font-family:Lato,sans-serif;font-size:13px;"
+                    f"color:#8B6914;margin:0;'>"
+                    f"{f['date']} &nbsp;&middot;&nbsp; "
+                    f"<strong>{f['dep']}</strong> &rarr; <strong>{f['arr']}</strong>"
+                    + (f" &nbsp;&middot;&nbsp; {f['duration']}" if f["duration"] else "")
+                    + "</p>",
+                    unsafe_allow_html=True,
+                )
+                if f["airline"] or f["flight_num"]:
+                    st.caption(
+                        " · ".join(filter(None, [f["airline"], f["flight_num"]]))
+                    )
+            with col_detail:
+                if f["baggage"]:
+                    st.markdown(f"**Equipaje** — {f['baggage']}")
+                for note in f["notes"]:
+                    st.warning(note)
+        st.write("")
+
+
 # ─── RESUMEN ─────────────────────────────────────────────────────────────────
 def render_summary():
     render_section_title("Vision general", "El Itinerario", top=40)
@@ -897,9 +991,11 @@ def render_summary():
         "| **Dia 29 Ago** | 29 Ago | Port Elizabeth — Tsitsikamma — Plettenberg Bay | 440 km | 5h | — |\n"
         "| **Dia 30 Ago** | 30 Ago | Plett — Knysna — Wilderness — De Hoop | 310 km | 5h | Salir 8:30h |\n"
         "| **Dia 31 Ago** | 31 Ago | De Hoop — Agulhas — Hermanus — Ciudad del Cabo | 382 km | 5h | Salir 7:30h |\n"
-        "| **Dia 1 Sep** | 1 Sep | Ciudad del Cabo — vuelo a Johannesburgo | — | — | Vuelo 17:30h |\n"
+        "| **Dia 1 Sep** | 1 Sep | Ciudad del Cabo — vuelo a Johannesburgo | — | — | Vuelo 17:25h |\n"
         "| **Dia 2 Sep** | 2 Sep | Johannesburgo — Sandton y Melrose | — | — | Descanso |\n"
     )
+
+    render_flights()
 
     render_section_title("Mapa interactivo", "La Ruta completa")
     build_map(selected_day=0, height=460, key="map_summary")
@@ -924,8 +1020,8 @@ def render_summary():
 # SIDEBAR
 # ════════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
-    st.markdown("## Sudáfrica 2025")
-    st.caption("Garden Route · 25 ago – 2 sep")
+    st.markdown("## Sudáfrica 2026")
+    st.caption("Garden Route · 25 ago – 2 sep 2026")
     st.divider()
 
     st.markdown("#### Programa")
@@ -1013,7 +1109,7 @@ st.markdown("""
   <div style="width:48px;height:1px;background:#8B6914;margin:0 auto 16px;"></div>
   <p style="font-family:'Lato',sans-serif;font-size:10px;letter-spacing:4px;
             color:#6B6560;text-transform:uppercase;margin:0;">
-    SUD&Aacute;FRICA &nbsp;&middot;&nbsp; GARDEN ROUTE &nbsp;&middot;&nbsp; 2025
+    SUD&Aacute;FRICA &nbsp;&middot;&nbsp; GARDEN ROUTE &nbsp;&middot;&nbsp; 2026
   </p>
 </div>
 """, unsafe_allow_html=True)
