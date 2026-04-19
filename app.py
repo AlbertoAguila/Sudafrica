@@ -721,7 +721,7 @@ def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
 
         st_folium(m, height=height, use_container_width=True, key=key)
     except Exception as e:
-        st.warning(f"El mapa no se pudo cargar: {e}")
+        st.markdown(f'<div style="border-left:3px solid #8B6914;background:#F9F5EC;padding:12px 16px;margin:12px 0;font-family:Lato,sans-serif;font-size:13px;color:#5C4A1E;">El mapa no se pudo cargar: {e}</div>', unsafe_allow_html=True)
 
 # ─── HTML COMPONENTS ─────────────────────────────────────────────────────────
 # Each function emits ONE fully self-contained st.markdown block.
@@ -855,9 +855,19 @@ def render_badges(badges: list):
         if key in _BADGES:
             kind, text = _BADGES[key]
             if kind == "info":
-                st.info(text)
+                st.markdown(
+                    f'<div style="border-left:3px solid #2C4A3E;background:#F0F4F2;'
+                    f'padding:12px 16px;margin:12px 0;font-family:Lato,sans-serif;'
+                    f'font-size:13px;color:#1A3329;">{text}</div>',
+                    unsafe_allow_html=True,
+                )
             else:
-                st.warning(text)
+                st.markdown(
+                    f'<div style="border-left:3px solid #8B6914;background:#F9F5EC;'
+                    f'padding:12px 16px;margin:12px 0;font-family:Lato,sans-serif;'
+                    f'font-size:13px;color:#5C4A1E;">{text}</div>',
+                    unsafe_allow_html=True,
+                )
 
 # ─── STOP — native Streamlit, no HTML wrappers ───────────────────────────────
 def render_stop(stop: dict, day_n: int):
@@ -873,7 +883,12 @@ def render_stop(stop: dict, day_n: int):
             st.markdown(f"- {act}")
         render_badges(stop.get("badges", []))
         for note in stop.get("notes", []):
-            st.info(note)
+            st.markdown(
+                f'<div style="border-left:3px solid #2C4A3E;background:#F0F4F2;'
+                f'padding:12px 16px;margin:12px 0;font-family:Lato,sans-serif;'
+                f'font-size:13px;color:#1A3329;">{note}</div>',
+                unsafe_allow_html=True,
+            )
 
 # ─── GALLERY — native Streamlit ──────────────────────────────────────────────
 def render_gallery(day_n: int, data: dict):
@@ -916,7 +931,12 @@ def render_day(day_n: int):
 
     # Intro del dia (bloque informativo antes de la primera parada)
     if data.get("day_intro"):
-        st.info(data["day_intro"])
+        st.markdown(
+            f'<div style="border-left:3px solid #2C4A3E;background:#F0F4F2;'
+            f'padding:12px 16px;margin:16px 48px;font-family:Lato,sans-serif;'
+            f'font-size:13px;color:#1A3329;">{data["day_intro"]}</div>',
+            unsafe_allow_html=True,
+        )
 
     # Drive previo a la primera parada
     if data.get("pre_drive"):
@@ -937,11 +957,15 @@ def render_day(day_n: int):
     # Aviso de seguridad (dia 5)
     if data.get("safety"):
         st.divider()
-        st.warning(
-            "**Seguridad en Johannesburgo** — "
-            "Moverse siempre en Uber o taxi del hotel. "
-            "Nunca a pie de noche fuera de Sandton o Melrose. "
-            "No mostrar camara ni objetos de valor en la calle."
+        st.markdown(
+            '<div style="border-left:3px solid #8B6914;background:#F9F5EC;'
+            'padding:12px 16px;margin:12px 0;font-family:Lato,sans-serif;'
+            'font-size:13px;color:#5C4A1E;">'
+            '<strong>Seguridad en Johannesburgo</strong> — '
+            'Moverse siempre en Uber o taxi del hotel. '
+            'Nunca a pie de noche fuera de Sandton o Melrose. '
+            'No mostrar camara ni objetos de valor en la calle.</div>',
+            unsafe_allow_html=True,
         )
 
     render_gallery(day_n, data)
@@ -1026,8 +1050,12 @@ def render_flights():
                 if f["baggage"]:
                     st.markdown(f"**Equipaje** — {f['baggage']}")
                 for note in f["notes"]:
-                    st.warning(note)
-        st.write("")
+                    st.markdown(
+                        f'<div style="border-left:3px solid #8B6914;background:#F9F5EC;'
+                        f'padding:12px 16px;margin:8px 0;font-family:Lato,sans-serif;'
+                        f'font-size:13px;color:#5C4A1E;">{note}</div>',
+                        unsafe_allow_html=True,
+                    )
 
 
 # ─── MAPA ANIMADO ────────────────────────────────────────────────────────────
