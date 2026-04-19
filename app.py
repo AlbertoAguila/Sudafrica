@@ -333,9 +333,12 @@ DAYS = {
     },
     1: {
         "title": "Garden Route comienza",
-        "date": "29 Ago", "km": "440 km", "hours": "5h",
-        "route": "Port Elizabeth — Tsitsikamma — Plettenberg Bay",
+        "date": "29 Ago", "km": "~440 km", "hours": "~5h de conduccion",
+        "route": "Woodlands Safari Estate — Port Elizabeth — Tsitsikamma — Plettenberg Bay",
         "alert": None,
+        "eyebrow": "Dia 29 &middot; 29 AGO &mdash; Ultima ma&ntilde;ana en Woodlands Safari Estate",
+        "day_intro": "Ultima manana en Woodlands Safari Estate. Desayuno en el campamento, recogida del equipaje y despedida del equipo de John X Safaris. El traslado hasta Port Elizabeth dura aproximadamente 2 horas — la primera parada de la Garden Route.",
+        "pre_drive": ("Woodlands Safari Estate", "Port Elizabeth", "~120 km", "~2h"),
         "stops": [
             {
                 "name": "Port Elizabeth (Gqeberha)",
@@ -592,6 +595,23 @@ ROUTE_POINTS = [
      "desc": "Final del viaje"},
 ]
 
+# Ruta de conducción en orden cronológico exacto (no deriva de ROUTE_POINTS)
+ROAD_ROUTE = [
+    (-33.45,   26.20),    # Woodlands — base dias 25-28
+    (-33.4833, 25.7500),  # Addo — excursion dia 28
+    (-33.3833, 26.0167),  # Shamwari — excursion dia 28
+    (-33.45,   26.20),    # Woodlands — regreso noche dia 28
+    (-33.9608, 25.6022),  # Port Elizabeth — dia 29
+    (-33.9833, 23.9167),  # Tsitsikamma — dia 29
+    (-34.0522, 23.3716),  # Plettenberg Bay — dia 29
+    (-34.0363, 23.0474),  # Knysna — dia 30
+    (-33.9913, 22.5849),  # Wilderness — dia 30
+    (-34.4547, 20.4329),  # De Hoop — dia 30
+    (-34.8279, 20.0077),  # Cabo Agulhas — dia 31
+    (-34.4190, 19.2352),  # Hermanus — dia 31
+    (-33.9249, 18.4241),  # Ciudad del Cabo — dia 31 y 1 Sep
+]
+
 # ─── MAPA FOLIUM ─────────────────────────────────────────────────────────────
 def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
     try:
@@ -608,12 +628,11 @@ def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
         m = folium.Map(location=[clat, clon], zoom_start=zoom,
                        tiles="CartoDB positron", control_scale=False)
 
-        road_pts = [(p["lat"], p["lon"]) for p in ROUTE_POINTS if p["day"] != 5]
-        folium.PolyLine(road_pts, color="#2C4A3E", weight=2.5,
+        folium.PolyLine(ROAD_ROUTE, color="#2C4A3E", weight=2.5,
                         opacity=0.7, dash_array="6 4").add_to(m)
         folium.PolyLine([(-33.9249, 18.4241), (-26.2041, 28.0473)],
-                        color="#8B6914", weight=1.5,
-                        opacity=0.55, dash_array="4 8").add_to(m)
+                        color="#185FA5", weight=2,
+                        opacity=0.6, dash_array="3 9").add_to(m)
 
         day_label_map = {6:"25", 7:"26-27", 8:"28", 1:"29", 2:"30", 3:"31", 4:"1 Sep", 5:"2 Sep"}
         for pt in ROUTE_POINTS:
@@ -722,11 +741,12 @@ def render_day_header(num: int, data: dict, color: str):
             f'</div>'
         )
     day_display = data.get("label", str(num))
+    eyebrow = data.get("eyebrow") or f"Dia {day_display} &middot; {data['date']}"
     st.markdown(f"""
 <div style="background:{color};padding:40px 48px 32px;">
   <p style="font-family:'Lato',sans-serif;font-size:11px;letter-spacing:3px;
             color:#8B6914;text-transform:uppercase;margin:0 0 8px 0;">
-    Dia {day_display} &middot; {data['date']}
+    {eyebrow}
   </p>
   <h2 style="font-family:'Playfair Display',serif;font-size:32px;
              color:#FAFAF7;margin:0 0 12px 0;font-weight:600;">
@@ -830,6 +850,14 @@ def render_day(day_n: int):
         c1.metric("Origen", "CPT", "Ciudad del Cabo")
         c2.metric("Salida", "17:30h", "aprox. 2h de vuelo")
         c3.metric("Destino", "JNB", "Johannesburgo")
+
+    # Intro del dia (bloque informativo antes de la primera parada)
+    if data.get("day_intro"):
+        st.info(data["day_intro"])
+
+    # Drive previo a la primera parada
+    if data.get("pre_drive"):
+        render_drive(data["pre_drive"])
 
     # Paradas con conectores de ruta
     drives = data.get("drives", [])
