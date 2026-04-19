@@ -44,6 +44,15 @@ DOWNLOADS = [
     ("cpt_bokaap.jpg",         "Bo-Kaap Cape Town colorful houses"),
     ("cpt_waterfront.jpg",     "V&A Waterfront Cape Town"),
     ("joburg_skyline.jpg",     "Sandton Johannesburg skyline"),
+    # ── Días 25-28: Llegada, Caza, Safari ──
+    ("pe_airport.jpg",         "Port Elizabeth Airport Gqeberha South Africa"),
+    ("woodlands_lodge.jpg",    "Eastern Cape landscape South Africa wildlife"),
+    ("woodlands_hunt.jpg",     "Greater kudu antelope South Africa male horns"),
+    ("woodlands_sunset.jpg",   "African elephant Eastern Cape savanna"),
+    ("addo_elephants.jpg",     "Addo Elephant National Park elephant herd"),
+    ("addo_park.jpg",          "Addo Elephant National Park landscape"),
+    ("shamwari_lion.jpg",      "Lion male Panthera leo Africa wildlife"),
+    ("shamwari_reserve.jpg",   "Eastern Cape game reserve South Africa landscape"),
 ]
 
 _VALID_EXTS = {".jpg", ".jpeg", ".png", ".webp"}

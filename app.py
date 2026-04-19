@@ -199,38 +199,43 @@ def hero_b64() -> str:
 # ─── DATOS DEL ITINERARIO ────────────────────────────────────────────────────
 DAYS = {
     6: {
-        "title": "Llegada a Port Elizabeth",
+        "title": "Llegada a Sudafrica",
         "label": "25",
         "date": "25 Ago", "km": "~120 km", "hours": "~2h traslado",
-        "route": "Aeropuerto Port Elizabeth — Woodlands Safari Estate",
-        "alert": "Contacto John X Safaris para GPS exacto del campamento: johnxsafarishunts@gmail.com o +27 82 700 9866",
+        "route": "Vuelo — Port Elizabeth — Woodlands Safari Estate",
+        "alert": None,
         "stops": [
             {
                 "name": "Aeropuerto de Port Elizabeth (Gqeberha)",
                 "subtitle": "Llegada y recogida por John X Safaris",
                 "time": "Llegada",
                 "img": "pe_airport",
-                "gallery": [],
+                "gallery": ["pe_airport"],
                 "activities": [
                     "Vuelo de llegada al aeropuerto de Port Elizabeth",
                     "Recogida por John X Safaris en el aeropuerto",
+                    "Tramites de llegada e inicio del traslado al campamento",
                 ],
                 "badges": [],
+                "notes": [],
             },
             {
-                "name": "Woodlands Safari Estate",
+                "name": "Woodlands Safari Estate — John X Safaris",
                 "subtitle": "Colonial Manor construida en 1898 — Base de caza y safari",
-                "time": "Llegada — noche",
-                "img": "woodlands_manor",
-                "gallery": ["woodlands_manor"],
+                "time": "Tarde — noche",
+                "img": "woodlands_lodge",
+                "gallery": ["woodlands_lodge"],
                 "activities": [
-                    "Traslado aeropuerto al campamento — aproximadamente 2 horas en coche",
-                    "Colonial Manor restaurada con fidelidad colonial, construida en 1898",
-                    "The Naked Pub — pub historico del campamento, fundado en 1897",
-                    "Comedor colonial, jardines y piscina",
-                    "Cena de bienvenida y descanso",
+                    "Instalacion en la Colonial Manor — habitaciones con bano en suite",
+                    "Primer recorrido del campamento y sus instalaciones",
+                    "The Naked Pub — pub historico construido en 1897",
+                    "Cena de bienvenida con cocina local, caza y vinos sudafricanos",
+                    "Hoguera nocturna compartiendo historias bajo el cielo africano",
                 ],
                 "badges": [],
+                "notes": [
+                    "Para coordinar el traslado o solicitar la ubicacion GPS exacta del campamento, contacta con John X Safaris: johnxsafarishunts@gmail.com  ·  +27 82 700 9866",
+                ],
             },
         ],
         "drives": [
@@ -238,36 +243,40 @@ DAYS = {
         ],
     },
     7: {
-        "title": "Caza en Woodlands Safari Estate",
+        "title": "Caza en el Eastern Cape",
         "label": "26-27",
         "date": "26-27 Ago", "km": "—", "hours": "Dias completos en campamento",
-        "route": "Southern Concessions del Eastern Cape — Great Fish River Valley",
+        "route": "Woodlands Safari Estate — Southern Concessions — Great Fish River Valley",
         "alert": None,
         "stops": [
             {
                 "name": "Southern Concessions — Eastern Cape",
-                "subtitle": "Great Fish River Valley — Caza con John X Safaris",
+                "subtitle": "Great Fish River Valley — Caza con guias profesionales",
                 "time": "Dias completos",
-                "img": "eastern_cape_hunt",
-                "gallery": ["eastern_cape_hunt"],
+                "img": "woodlands_hunt",
+                "gallery": ["woodlands_hunt", "woodlands_sunset"],
                 "activities": [
-                    "Caza en las Southern Concessions del Eastern Cape, zona Great Fish River Valley",
-                    "Salidas al amanecer con guias profesionales de John X Safaris",
-                    "Regreso al campamento al mediodia — descanso en la Colonial Manor",
+                    "Salidas al amanecer con guias profesionales (Professional Hunters) de John X Safaris",
+                    "Caza en las Southern Concessions del Eastern Cape — zona Great Fish River Valley",
+                    "Mas de 3 millones de acres de terreno privado con mas de 40 especies de caza",
+                    "Regreso al campamento al mediodia para almuerzo y descanso",
                     "Salida vespertina hasta el atardecer",
-                    "Cenas en el comedor colonial del lodge",
-                    "Experiencia de caza de los Big 5 en terreno privado exclusivo",
+                    "Cenas opulentas en el comedor colonial — cocina local, caza, vinos sudafricanos",
+                    "Hoguera nocturna con los Professional Hunters",
                 ],
                 "badges": [],
+                "notes": [
+                    "Woodlands Safari Estate es uno de los mejores destinos de Bufalo del Cabo en Sudafrica",
+                ],
             },
         ],
         "drives": [],
     },
     8: {
-        "title": "Safari de observacion: Addo y Shamwari",
+        "title": "Safari de Observacion",
         "label": "28",
-        "date": "28 Ago", "km": "~150 km", "hours": "Dia completo",
-        "route": "Woodlands — Addo Elephant National Park — Shamwari Game Reserve",
+        "date": "28 Ago", "km": "~300 km", "hours": "Dia completo",
+        "route": "Woodlands — Addo Elephant National Park — Shamwari Game Reserve — Woodlands",
         "alert": None,
         "stops": [
             {
@@ -275,41 +284,45 @@ DAYS = {
                 "subtitle": "Tercer parque nacional mas grande de Sudafrica",
                 "time": "Manana",
                 "img": "addo_elephants",
-                "gallery": ["addo_elephants"],
+                "gallery": ["addo_elephants", "addo_park"],
                 "activities": [
-                    "Mas de 600 elefantes africanos en libertad",
-                    "Posibilidad de ver los Big 7 — Big 5, tiburon blanco y ballena",
-                    "A ~72 km al norte de Port Elizabeth — 1 a 1.5h desde Woodlands",
                     "Tercer parque nacional mas grande de Sudafrica",
-                    "Wild Card incluida — acceso libre al parque",
+                    "Mas de 600 elefantes africanos en libertad",
+                    "Uno de los pocos lugares donde ver los Big 7 — Big 5, tiburon blanco y ballena",
+                    "Game drives guiados por el parque",
+                    "A ~72 km al norte de Port Elizabeth — 1 a 1.5h desde Woodlands",
                 ],
                 "badges": ["wild"],
+                "notes": [],
             },
             {
                 "name": "Shamwari Game Reserve",
                 "subtitle": "Reserva privada de lujo — Big 5 y conservacion de felinos",
                 "time": "Tarde",
                 "img": "shamwari_lion",
-                "gallery": ["shamwari_lion"],
+                "gallery": ["shamwari_lion", "shamwari_reserve"],
                 "activities": [
-                    "Reserva privada de lujo famosa por la reintroduccion de los Big 5",
-                    "Programa de conservacion de felinos — Born Free Foundation",
+                    "Reserva privada de lujo — una de las mas prestigiosas de Sudafrica",
+                    "Famosa por la reintroduccion de los Big 5 y programa de conservacion de felinos",
+                    "Game drives con rangers expertos",
+                    "Centro de conservacion y rehabilitacion de animales",
                     "A ~75 km al este de Port Elizabeth — 1 a 1.5h desde Woodlands",
-                    "Safari en vehiculo abierto con guia experto",
                 ],
                 "badges": ["book"],
+                "notes": [],
             },
             {
                 "name": "Ultima noche en Woodlands Safari Estate",
                 "subtitle": "Regreso al campamento — cena de despedida",
                 "time": "Noche",
-                "img": "woodlands_manor",
+                "img": "woodlands_lodge",
                 "gallery": [],
                 "activities": [
                     "Regreso al campamento por la tarde",
-                    "Cena de despedida en el comedor colonial",
+                    "Ultima cena en el comedor colonial antes de iniciar la Garden Route",
                 ],
                 "badges": [],
+                "notes": [],
             },
         ],
         "drives": [
@@ -550,11 +563,13 @@ DAYS = {
 
 ROUTE_POINTS = [
     {"name": "Woodlands Safari Estate", "day": 6, "lat": -33.45, "lon": 26.20,
-     "desc": "Dias 25 al 28 — John X Safaris — Base de caza y safari"},
+     "desc": "Dias 25-28 — John X Safaris — Base de caza y safari"},
     {"name": "Addo Elephant National Park", "day": 8, "lat": -33.4833, "lon": 25.7500,
-     "desc": "Big 7, mas de 600 elefantes"},
+     "desc": "Big 7 — mas de 600 elefantes"},
     {"name": "Shamwari Game Reserve", "day": 8, "lat": -33.3833, "lon": 26.0167,
-     "desc": "Big 5, reserva privada de lujo"},
+     "desc": "Big 5 — reserva privada de lujo"},
+    {"name": "Aeropuerto Port Elizabeth", "day": 6, "lat": -33.9845, "lon": 25.6172,
+     "desc": "Dia 25 — Llegada y recogida por John X Safaris"},
     {"name": "Port Elizabeth", "day": 1, "lat": -33.9608, "lon": 25.6022,
      "desc": "Route 67 · Donkin Reserve · Costa del Indico"},
     {"name": "Tsitsikamma",    "day": 1, "lat": -33.9833, "lon": 23.9167,
@@ -775,6 +790,8 @@ def render_stop(stop: dict, day_n: int):
         for act in stop["activities"]:
             st.markdown(f"- {act}")
         render_badges(stop.get("badges", []))
+        for note in stop.get("notes", []):
+            st.info(note)
 
 # ─── GALLERY — native Streamlit ──────────────────────────────────────────────
 def render_gallery(day_n: int, data: dict):
@@ -848,7 +865,7 @@ def render_summary():
         "|-----|-------|------|----|------------|-------|\n"
         "| **Dia 25 Ago** | 25 Ago | Llegada PE — Woodlands Safari Estate | ~120 km | ~2h traslado | John X Safaris |\n"
         "| **Dia 26-27 Ago** | 26-27 Ago | Caza en Woodlands Safari Estate | — | Dias completos en campamento | — |\n"
-        "| **Dia 28 Ago** | 28 Ago | Addo Elephant NP + Shamwari Game Reserve | ~150 km | Dia de safari | — |\n"
+        "| **Dia 28 Ago** | 28 Ago | Addo Elephant NP + Shamwari Game Reserve | ~300 km | Dia completo de safari | — |\n"
         "| **Dia 29 Ago** | 29 Ago | Port Elizabeth — Tsitsikamma — Plettenberg Bay | 440 km | 5h | — |\n"
         "| **Dia 30 Ago** | 30 Ago | Plett — Knysna — Wilderness — De Hoop | 310 km | 5h | Salir 8:30h |\n"
         "| **Dia 31 Ago** | 31 Ago | De Hoop — Agulhas — Hermanus — Ciudad del Cabo | 382 km | 5h | Salir 7:30h |\n"
@@ -925,14 +942,14 @@ render_section_title("Ocho dias, trece paradas", "El Itinerario")
 
 tab_res, tab25, tab2627, tab28, tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Resumen",
-    "Dia 25 · Llegada",
-    "Dia 26-27 · Caza",
-    "Dia 28 · Safari",
-    "Dia 29 · Garden Route",
-    "Dia 30 · De Hoop",
-    "Dia 31 · Cabo",
-    "Dia 1 Sep · CPT",
-    "Dia 2 Sep · Joburg",
+    "25 Ago · Llegada",
+    "26-27 Ago · Caza",
+    "28 Ago · Safari",
+    "29 Ago · Garden Route",
+    "30 Ago · De Hoop",
+    "31 Ago · Cabo",
+    "1 Sep · CPT",
+    "2 Sep · Joburg",
 ])
 with tab_res:  render_summary()
 with tab25:    render_day(6)
