@@ -142,6 +142,9 @@ DAY_COLORS = {
     3: "#8B6914",
     4: "#2A4A6B",
     5: "#6B4A2A",
+    6: "#5C3D1E",
+    7: "#7A4F2A",
+    8: "#8B5E3C",
 }
 _PH_RGB = {
     0: (107, 101, 96),
@@ -150,6 +153,9 @@ _PH_RGB = {
     3: (139, 105, 20),
     4: ( 42,  74,107),
     5: (107,  74, 42),
+    6: ( 92,  61, 30),
+    7: (122,  79, 42),
+    8: (139,  94, 60),
 }
 
 # ─── PIL IMAGES ──────────────────────────────────────────────────────────────
@@ -192,6 +198,126 @@ def hero_b64() -> str:
 
 # ─── DATOS DEL ITINERARIO ────────────────────────────────────────────────────
 DAYS = {
+    6: {
+        "title": "Llegada a Port Elizabeth",
+        "label": "25",
+        "date": "25 Ago", "km": "~120 km", "hours": "~2h traslado",
+        "route": "Aeropuerto Port Elizabeth — Woodlands Safari Estate",
+        "alert": "Contacto John X Safaris para GPS exacto del campamento: johnxsafarishunts@gmail.com o +27 82 700 9866",
+        "stops": [
+            {
+                "name": "Aeropuerto de Port Elizabeth (Gqeberha)",
+                "subtitle": "Llegada y recogida por John X Safaris",
+                "time": "Llegada",
+                "img": "pe_airport",
+                "gallery": [],
+                "activities": [
+                    "Vuelo de llegada al aeropuerto de Port Elizabeth",
+                    "Recogida por John X Safaris en el aeropuerto",
+                ],
+                "badges": [],
+            },
+            {
+                "name": "Woodlands Safari Estate",
+                "subtitle": "Colonial Manor construida en 1898 — Base de caza y safari",
+                "time": "Llegada — noche",
+                "img": "woodlands_manor",
+                "gallery": ["woodlands_manor"],
+                "activities": [
+                    "Traslado aeropuerto al campamento — aproximadamente 2 horas en coche",
+                    "Colonial Manor restaurada con fidelidad colonial, construida en 1898",
+                    "The Naked Pub — pub historico del campamento, fundado en 1897",
+                    "Comedor colonial, jardines y piscina",
+                    "Cena de bienvenida y descanso",
+                ],
+                "badges": [],
+            },
+        ],
+        "drives": [
+            ("Aeropuerto Port Elizabeth", "Woodlands Safari Estate", "~120 km", "~2h"),
+        ],
+    },
+    7: {
+        "title": "Caza en Woodlands Safari Estate",
+        "label": "26-27",
+        "date": "26-27 Ago", "km": "—", "hours": "Dias completos en campamento",
+        "route": "Southern Concessions del Eastern Cape — Great Fish River Valley",
+        "alert": None,
+        "stops": [
+            {
+                "name": "Southern Concessions — Eastern Cape",
+                "subtitle": "Great Fish River Valley — Caza con John X Safaris",
+                "time": "Dias completos",
+                "img": "eastern_cape_hunt",
+                "gallery": ["eastern_cape_hunt"],
+                "activities": [
+                    "Caza en las Southern Concessions del Eastern Cape, zona Great Fish River Valley",
+                    "Salidas al amanecer con guias profesionales de John X Safaris",
+                    "Regreso al campamento al mediodia — descanso en la Colonial Manor",
+                    "Salida vespertina hasta el atardecer",
+                    "Cenas en el comedor colonial del lodge",
+                    "Experiencia de caza de los Big 5 en terreno privado exclusivo",
+                ],
+                "badges": [],
+            },
+        ],
+        "drives": [],
+    },
+    8: {
+        "title": "Safari de observacion: Addo y Shamwari",
+        "label": "28",
+        "date": "28 Ago", "km": "~150 km", "hours": "Dia completo",
+        "route": "Woodlands — Addo Elephant National Park — Shamwari Game Reserve",
+        "alert": None,
+        "stops": [
+            {
+                "name": "Addo Elephant National Park",
+                "subtitle": "Tercer parque nacional mas grande de Sudafrica",
+                "time": "Manana",
+                "img": "addo_elephants",
+                "gallery": ["addo_elephants"],
+                "activities": [
+                    "Mas de 600 elefantes africanos en libertad",
+                    "Posibilidad de ver los Big 7 — Big 5, tiburon blanco y ballena",
+                    "A ~72 km al norte de Port Elizabeth — 1 a 1.5h desde Woodlands",
+                    "Tercer parque nacional mas grande de Sudafrica",
+                    "Wild Card incluida — acceso libre al parque",
+                ],
+                "badges": ["wild"],
+            },
+            {
+                "name": "Shamwari Game Reserve",
+                "subtitle": "Reserva privada de lujo — Big 5 y conservacion de felinos",
+                "time": "Tarde",
+                "img": "shamwari_lion",
+                "gallery": ["shamwari_lion"],
+                "activities": [
+                    "Reserva privada de lujo famosa por la reintroduccion de los Big 5",
+                    "Programa de conservacion de felinos — Born Free Foundation",
+                    "A ~75 km al este de Port Elizabeth — 1 a 1.5h desde Woodlands",
+                    "Safari en vehiculo abierto con guia experto",
+                ],
+                "badges": ["book"],
+            },
+            {
+                "name": "Ultima noche en Woodlands Safari Estate",
+                "subtitle": "Regreso al campamento — cena de despedida",
+                "time": "Noche",
+                "img": "woodlands_manor",
+                "gallery": [],
+                "activities": [
+                    "Regreso al campamento por la tarde",
+                    "Cena de despedida en el comedor colonial",
+                ],
+                "badges": [],
+            },
+        ],
+        "drives": [
+            ("Woodlands", "Addo Elephant NP", "~72 km", "~1.5h"),
+            ("Addo", "Shamwari Game Reserve", "~80 km", "~1h"),
+            ("Shamwari", "Woodlands Safari Estate", "~75 km", "~1.5h"),
+        ],
+    },
     1: {
         "title": "Garden Route comienza",
         "date": "29 Ago", "km": "440 km", "hours": "5h",
@@ -423,6 +549,12 @@ DAYS = {
 }
 
 ROUTE_POINTS = [
+    {"name": "Woodlands Safari Estate", "day": 6, "lat": -33.45, "lon": 26.20,
+     "desc": "Dias 25 al 28 — John X Safaris — Base de caza y safari"},
+    {"name": "Addo Elephant National Park", "day": 8, "lat": -33.4833, "lon": 25.7500,
+     "desc": "Big 7, mas de 600 elefantes"},
+    {"name": "Shamwari Game Reserve", "day": 8, "lat": -33.3833, "lon": 26.0167,
+     "desc": "Big 5, reserva privada de lujo"},
     {"name": "Port Elizabeth", "day": 1, "lat": -33.9608, "lon": 25.6022,
      "desc": "Route 67 · Donkin Reserve · Costa del Indico"},
     {"name": "Tsitsikamma",    "day": 1, "lat": -33.9833, "lon": 23.9167,
@@ -448,7 +580,8 @@ ROUTE_POINTS = [
 # ─── MAPA FOLIUM ─────────────────────────────────────────────────────────────
 def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
     try:
-        day_dates = {1: "29 Ago", 2: "30 Ago", 3: "31 Ago", 4: "1 Sep", 5: "2 Sep"}
+        day_dates = {6: "25 Ago", 7: "26-27 Ago", 8: "28 Ago",
+                     1: "29 Ago", 2: "30 Ago", 3: "31 Ago", 4: "1 Sep", 5: "2 Sep"}
         if selected_day > 0:
             pts = [p for p in ROUTE_POINTS if p["day"] == selected_day]
             clat = sum(p["lat"] for p in pts) / len(pts) if pts else -33.5
@@ -467,6 +600,7 @@ def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
                         color="#8B6914", weight=1.5,
                         opacity=0.55, dash_array="4 8").add_to(m)
 
+        day_label_map = {6:"25", 7:"26-27", 8:"28", 1:"29", 2:"30", 3:"31", 4:"1 Sep", 5:"2 Sep"}
         for pt in ROUTE_POINTS:
             color  = DAY_COLORS.get(pt["day"], "#2C4A3E")
             active = (selected_day == 0 or pt["day"] == selected_day)
@@ -474,7 +608,7 @@ def build_map(selected_day: int = 0, height: int = 460, key: str = "map"):
                 f'<div style="font-family:Lato,sans-serif;min-width:180px;padding:8px 4px;">'
                 f'<p style="font-size:10px;letter-spacing:2px;color:#8B6914;'
                 f'text-transform:uppercase;margin:0 0 4px 0;">'
-                f'Dia {pt["day"]} &mdash; {day_dates.get(pt["day"], "")}</p>'
+                f'Dia {day_label_map.get(pt["day"], str(pt["day"]))} &mdash; {day_dates.get(pt["day"], "")}</p>'
                 f'<p style="font-weight:600;font-size:13px;color:#1A1A1A;margin:0 0 4px 0;">'
                 f'{pt["name"]}</p>'
                 f'<p style="font-size:12px;color:#6B6560;margin:0;">{pt["desc"]}</p>'
@@ -503,7 +637,7 @@ def render_hero():
   <p style="font-family:'Lato',sans-serif; font-size:11px; letter-spacing:4px; color:#FFB81C; text-transform:uppercase; margin:0 0 10px 0;">Garden Route &middot; Sud&aacute;frica &middot; Agosto 2025</p>
   <h1 style="font-family:'Playfair Display',serif; font-size:42px; font-weight:700; color:#FAFAF7; margin:0 0 12px 0; line-height:1.1;">Sud&aacute;frica &middot; Garden Route</h1>
   <div style="width:50px; height:2px; background:#FFB81C; margin:0 auto 14px;"></div>
-  <p style="font-family:'Lato',sans-serif; font-size:14px; color:#C8BFB0; letter-spacing:1px; margin:0;">29 AGO &mdash; 2 SEP &nbsp;&middot;&nbsp; 1.534 km &nbsp;&middot;&nbsp; 5 d&iacute;as &nbsp;&middot;&nbsp; 10 paradas</p>
+  <p style="font-family:'Lato',sans-serif; font-size:14px; color:#C8BFB0; letter-spacing:1px; margin:0;">25 AGO &mdash; 2 SEP &nbsp;&middot;&nbsp; 1.684 km &nbsp;&middot;&nbsp; 8 d&iacute;as &nbsp;&middot;&nbsp; 13 paradas</p>
 </div>
 <div style="display:flex; height:5px; width:100%;">
   <div style="flex:1; background:#000000;"></div>
@@ -519,11 +653,11 @@ def render_hero():
 def render_stats_bar():
     """Stats bar — single self-contained HTML block."""
     stats = [
-        ("1.534 km", "Recorrido"),
-        ("5",        "D&iacute;as"),
-        ("10",       "Paradas"),
+        ("1.684 km", "Recorrido"),
+        ("8",        "D&iacute;as"),
+        ("13",       "Paradas"),
         ("2",        "Oc&eacute;anos"),
-        ("3",        "Parques"),
+        ("5",        "Parques"),
         ("1",        "Pa&iacute;s"),
     ]
     items_html = "".join(
@@ -572,11 +706,12 @@ def render_day_header(num: int, data: dict, color: str):
             f'{data["alert"]}'
             f'</div>'
         )
+    day_display = data.get("label", str(num))
     st.markdown(f"""
 <div style="background:{color};padding:40px 48px 32px;">
   <p style="font-family:'Lato',sans-serif;font-size:11px;letter-spacing:3px;
             color:#8B6914;text-transform:uppercase;margin:0 0 8px 0;">
-    Dia {num} &middot; {data['date']}
+    Dia {day_display} &middot; {data['date']}
   </p>
   <h2 style="font-family:'Playfair Display',serif;font-size:32px;
              color:#FAFAF7;margin:0 0 12px 0;font-weight:600;">
@@ -711,11 +846,14 @@ def render_summary():
     st.markdown(
         "| Dia | Fecha | Ruta | Km | Conduccion | Aviso |\n"
         "|-----|-------|------|----|------------|-------|\n"
-        "| **Dia 1** | 29 Ago | Port Elizabeth — Tsitsikamma — Plettenberg Bay | 440 km | 5h | — |\n"
-        "| **Dia 2** | 30 Ago | Plett — Knysna — Wilderness — De Hoop | 310 km | 5h | Salir 8:30h |\n"
-        "| **Dia 3** | 31 Ago | De Hoop — Agulhas — Hermanus — Ciudad del Cabo | 382 km | 5h | Salir 7:30h |\n"
-        "| **Dia 4** | 1 Sep | Ciudad del Cabo — vuelo a Johannesburgo | — | — | Vuelo 17:30h |\n"
-        "| **Dia 5** | 2 Sep | Johannesburgo — Sandton y Melrose | — | — | Descanso |\n"
+        "| **Dia 25 Ago** | 25 Ago | Llegada PE — Woodlands Safari Estate | ~120 km | ~2h traslado | John X Safaris |\n"
+        "| **Dia 26-27 Ago** | 26-27 Ago | Caza en Woodlands Safari Estate | — | Dias completos en campamento | — |\n"
+        "| **Dia 28 Ago** | 28 Ago | Addo Elephant NP + Shamwari Game Reserve | ~150 km | Dia de safari | — |\n"
+        "| **Dia 29 Ago** | 29 Ago | Port Elizabeth — Tsitsikamma — Plettenberg Bay | 440 km | 5h | — |\n"
+        "| **Dia 30 Ago** | 30 Ago | Plett — Knysna — Wilderness — De Hoop | 310 km | 5h | Salir 8:30h |\n"
+        "| **Dia 31 Ago** | 31 Ago | De Hoop — Agulhas — Hermanus — Ciudad del Cabo | 382 km | 5h | Salir 7:30h |\n"
+        "| **Dia 1 Sep** | 1 Sep | Ciudad del Cabo — vuelo a Johannesburgo | — | — | Vuelo 17:30h |\n"
+        "| **Dia 2 Sep** | 2 Sep | Johannesburgo — Sandton y Melrose | — | — | Descanso |\n"
     )
 
     render_section_title("Mapa interactivo", "La Ruta completa")
@@ -742,26 +880,29 @@ def render_summary():
 # ════════════════════════════════════════════════════════════════════════════════
 with st.sidebar:
     st.markdown("## Sudáfrica 2025")
-    st.caption("Garden Route · 29 ago – 2 sep")
+    st.caption("Garden Route · 25 ago – 2 sep")
     st.divider()
 
     st.markdown("#### Programa")
     for label, date, route in [
-        ("Dia 1", "29 Ago", "Port Elizabeth — Tsitsikamma — Plett"),
-        ("Dia 2", "30 Ago", "Knysna — Wilderness — De Hoop"),
-        ("Dia 3", "31 Ago", "Agulhas — Hermanus — Ciudad del Cabo"),
-        ("Dia 4", "1 Sep",  "Ciudad del Cabo — Johannesburgo"),
-        ("Dia 5", "2 Sep",  "Johannesburgo — Sandton"),
+        ("Dia 25", "25 Ago", "Llegada PE — Woodlands Safari Estate"),
+        ("Dia 26-27", "26-27 Ago", "Caza en Woodlands Safari Estate"),
+        ("Dia 28", "28 Ago", "Addo Elephant NP + Shamwari"),
+        ("Dia 29", "29 Ago", "Port Elizabeth — Tsitsikamma — Plett"),
+        ("Dia 30", "30 Ago", "Knysna — Wilderness — De Hoop"),
+        ("Dia 31", "31 Ago", "Agulhas — Hermanus — Ciudad del Cabo"),
+        ("Dia 1 Sep", "1 Sep",  "Ciudad del Cabo — Johannesburgo"),
+        ("Dia 2 Sep", "2 Sep",  "Johannesburgo — Sandton"),
     ]:
         st.markdown(f"**{label}** &nbsp; {date}  \n*{route}*")
 
     st.divider()
     st.markdown("#### Estadísticas")
     c1, c2 = st.columns(2)
-    c1.metric("Km", "1.534")
-    c2.metric("Días", "5")
-    c1.metric("Paradas", "10")
-    c2.metric("Parques", "3")
+    c1.metric("Km", "1.684")
+    c2.metric("Días", "8")
+    c1.metric("Paradas", "13")
+    c2.metric("Parques", "5")
 
     st.divider()
     with st.expander("Como compartir la app"):
@@ -780,22 +921,28 @@ with st.sidebar:
 render_hero()
 render_stats_bar()
 
-render_section_title("Cinco dias, diez paradas", "El Itinerario")
+render_section_title("Ocho dias, trece paradas", "El Itinerario")
 
-tab_res, tab1, tab2, tab3, tab4, tab5 = st.tabs([
+tab_res, tab25, tab2627, tab28, tab1, tab2, tab3, tab4, tab5 = st.tabs([
     "Resumen",
-    "Dia 1 · 29 Ago",
-    "Dia 2 · 30 Ago",
-    "Dia 3 · 31 Ago",
-    "Dia 4 · 1 Sep",
-    "Dia 5 · 2 Sep",
+    "Dia 25 · Llegada",
+    "Dia 26-27 · Caza",
+    "Dia 28 · Safari",
+    "Dia 29 · Garden Route",
+    "Dia 30 · De Hoop",
+    "Dia 31 · Cabo",
+    "Dia 1 Sep · CPT",
+    "Dia 2 Sep · Joburg",
 ])
-with tab_res: render_summary()
-with tab1:    render_day(1)
-with tab2:    render_day(2)
-with tab3:    render_day(3)
-with tab4:    render_day(4)
-with tab5:    render_day(5)
+with tab_res:  render_summary()
+with tab25:    render_day(6)
+with tab2627:  render_day(7)
+with tab28:    render_day(8)
+with tab1:     render_day(1)
+with tab2:     render_day(2)
+with tab3:     render_day(3)
+with tab4:     render_day(4)
+with tab5:     render_day(5)
 
 # Esenciales — section title is self-contained HTML; cards are native Streamlit
 render_section_title("Informacion practica", "Esenciales del viaje")
