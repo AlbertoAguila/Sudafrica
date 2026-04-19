@@ -1233,6 +1233,19 @@ setTimeout(startAnim,700);
 def render_summary():
     render_section_title("Vision general", "El Itinerario", top=40)
 
+    st.markdown(
+        '<div style="display:flex;align-items:center;gap:10px;padding:12px 16px;'
+        'background:#F2EDE4;border-radius:8px;margin:8px 0 20px 0;font-family:Lato,sans-serif;">'
+        '<div style="font-size:20px;">👆</div>'
+        '<p style="margin:0;font-size:13px;color:#6B6560;line-height:1.5;">'
+        'Pulsa en las pesta&ntilde;as de arriba para ver el detalle de cada d&iacute;a &mdash; '
+        'actividades, fotos y toda la informaci&oacute;n de cada parada.</p>'
+        '</div>',
+        unsafe_allow_html=True,
+    )
+
+    render_animated_map()
+
     _N = ('<span style="background:#2C4A3E;color:white;padding:3px 10px;border-radius:4px;'
           'font-size:11px;font-family:Lato,sans-serif;letter-spacing:1px;">NOCHE</span>')
     _V = ('<span style="background:#185FA5;color:white;padding:3px 10px;border-radius:4px;'
@@ -1348,8 +1361,6 @@ def render_summary():
     st.markdown(totales, unsafe_allow_html=True)
 
     render_flights()
-
-    render_animated_map()
 
     render_section_title("Notas de viaje", "Antes de partir")
     with st.container(border=True):
