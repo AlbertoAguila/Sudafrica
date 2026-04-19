@@ -890,28 +890,7 @@ def render_stop(stop: dict, day_n: int):
                 unsafe_allow_html=True,
             )
 
-# ─── GALLERY — native Streamlit ──────────────────────────────────────────────
-def render_gallery(day_n: int, data: dict):
-    stems: list = []
-    for s in data["stops"]:
-        for stem in s.get("gallery", []):
-            if stem not in stems:
-                stems.append(stem)
-    stems = stems[:6]
-    if not stems:
-        return
-    st.divider()
-    st.caption("G A L E R I A")
-    for i in range(0, len(stems), 3):
-        row = stems[i:i + 3]
-        cols = st.columns(len(row), gap="small")
-        for col, stem in zip(cols, row):
-            with col:
-                st.image(
-                    get_img(stem, day_n),
-                    use_container_width=True,
-                    caption=stem.replace("_", " ").title(),
-                )
+
 
 # ─── DAY PANEL ───────────────────────────────────────────────────────────────
 def render_day(day_n: int):
@@ -968,7 +947,6 @@ def render_day(day_n: int):
             unsafe_allow_html=True,
         )
 
-    render_gallery(day_n, data)
     st.write("")
 
 # ─── VUELOS ──────────────────────────────────────────────────────────────────
