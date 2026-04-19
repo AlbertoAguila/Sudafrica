@@ -9,6 +9,7 @@ import base64
 from pathlib import Path
 
 import streamlit as st
+import streamlit.components.v1 as components
 import folium
 from streamlit_folium import st_folium
 from PIL import Image, ImageDraw
@@ -978,6 +979,199 @@ def render_flights():
         st.write("")
 
 
+# ─── MAPA ANIMADO ────────────────────────────────────────────────────────────
+def render_animated_map():
+    render_section_title("Mapa interactivo", "La Ruta completa")
+    html = """<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Lato',sans-serif;background:#FAFAF7;}
+#ctrl{padding:10px 16px;background:#F2EDE4;border-bottom:1px solid #DDD8D0;
+      display:flex;gap:12px;align-items:center;}
+.btn{background:#2C4A3E;color:#FAFAF7;border:none;padding:8px 20px;
+     font-size:11px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;}
+.btn:hover{background:#8B6914;}
+#lbl{font-size:11px;color:#6B6560;letter-spacing:2px;text-transform:uppercase;}
+#map{width:100%;height:518px;}
+</style>
+</head>
+<body>
+<div id="ctrl">
+  <button class="btn" onclick="startAnim()">Reproducir animacion</button>
+  <button class="btn" onclick="pauseAnim()">Pausar</button>
+  <span id="lbl"></span>
+</div>
+<div id="map"></div>
+<script>
+var map = L.map('map',{center:[8,13],zoom:3});
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',{
+  attribution:'&copy; OpenStreetMap &copy; CARTO',maxZoom:19
+}).addTo(map);
+
+// ── líneas estáticas ──────────────────────────────────────────────────────
+var fS={color:'#185FA5',weight:2,opacity:0.6,dashArray:'6 9'};
+var cS={color:'#2C4A3E',weight:3,opacity:0.8};
+
+// vuelos (curva Madrid-Joburg con puntos intermedios)
+L.polyline([[40.4168,-3.7038],[30,5],[20,10],[5,18],[-10,22],[-26.2041,28.0473]],fS).addTo(map);
+L.polyline([[-26.2041,28.0473],[-30,27],[-33.9608,25.6022]],fS).addTo(map);
+L.polyline([[-33.9249,18.4241],[-30,22],[-26.2041,28.0473]],fS).addTo(map);
+L.polyline([[-26.2041,28.0473],[-10,22],[5,18],[20,10],[30,5],[40.4168,-3.7038]],fS).addTo(map);
+
+// coche (ruta completa por tierra)
+L.polyline([
+  [-33.9608,25.6022],[-33.45,26.20],
+  [-33.4833,25.75],[-33.3833,26.0167],[-33.45,26.20],
+  [-33.9608,25.6022],[-33.9833,23.9167],[-34.0522,23.3716],
+  [-34.0363,23.0474],[-33.9913,22.5849],[-34.4547,20.4329],
+  [-34.8279,20.0077],[-34.419,19.2352],[-33.9249,18.4241]
+],cS).addTo(map);
+
+// ── marcadores fijos ──────────────────────────────────────────────────────
+var stops=[
+  {p:[40.4168,-3.7038],  t:'Madrid — Salida 24 ago 23:45h',                              c:'#185FA5',r:8},
+  {p:[-26.2041,28.0473], t:'Johannesburgo — Llegada 25 ago 09:50h · Conexion 13:20h',    c:'#185FA5',r:7},
+  {p:[-33.9608,25.6022], t:'Port Elizabeth — 25 ago 15:05h · Recogida John X Safaris',   c:'#2C4A3E',r:6},
+  {p:[-33.45,26.20],     t:'Woodlands Safari Estate — Base dias 25-28 · John X Safaris', c:'#5C3D1E',r:8},
+  {p:[-33.4833,25.75],   t:'Addo Elephant National Park — Dia 28 · Big 7',               c:'#8B5E3C',r:5},
+  {p:[-33.3833,26.0167], t:'Shamwari Game Reserve — Dia 28 · Big 5',                     c:'#8B5E3C',r:5},
+  {p:[-33.9833,23.9167], t:'Tsitsikamma — Dia 29 · Puente colgante',                     c:'#2C4A3E',r:5},
+  {p:[-34.0522,23.3716], t:'Plettenberg Bay — Noche dia 29',                             c:'#2C4A3E',r:7},
+  {p:[-34.0363,23.0474], t:'Knysna The Heads — Dia 30',                                  c:'#4A7A68',r:5},
+  {p:[-33.9913,22.5849], t:'Wilderness Dolphin Point — Dia 30',                          c:'#4A7A68',r:5},
+  {p:[-34.4547,20.4329], t:'Reserva De Hoop — Noche dia 30',                             c:'#4A7A68',r:7},
+  {p:[-34.8279,20.0077], t:'Cabo Agulhas — Dia 31 · Punto mas al sur de Africa',         c:'#8B6914',r:5},
+  {p:[-34.419,19.2352],  t:'Hermanus — Dia 31 · Ballenas',                               c:'#8B6914',r:5},
+  {p:[-33.9249,18.4241], t:'Ciudad del Cabo — Dias 31 ago y 1 sep · Vuelo 17:25h',       c:'#2A4A6B',r:8},
+];
+stops.forEach(function(s){
+  var d=s.r*2;
+  L.marker(s.p,{
+    icon:L.divIcon({
+      html:'<div style="width:'+d+'px;height:'+d+'px;border-radius:50%;background:'+s.c+
+           ';border:2px solid white;box-shadow:0 1px 4px rgba(0,0,0,.35);"></div>',
+      iconSize:[d,d],iconAnchor:[s.r,s.r],className:''
+    })
+  }).addTo(map).bindPopup('<span style="font-family:Lato,sans-serif;font-size:13px;">'+s.t+'</span>');
+});
+
+// ── segmentos de animación ────────────────────────────────────────────────
+var SEGS=[
+  {type:'flight',pts:[[40.4168,-3.7038],[30,5],[20,10],[5,18],[-10,22],[-26.2041,28.0473]],dur:3200,lbl:'MAD \u2192 JNB'},
+  {type:'flight',pts:[[-26.2041,28.0473],[-30,27],[-33.9608,25.6022]],                     dur:1400,lbl:'JNB \u2192 PLZ'},
+  {type:'car',   pts:[[-33.9608,25.6022],[-33.45,26.20]],                                  dur:800, lbl:'PE \u2192 Woodlands'},
+  {type:'car',   pts:[[-33.45,26.20],[-33.4833,25.75],[-33.3833,26.0167],[-33.45,26.20]], dur:1800,lbl:'Safari dia 28'},
+  {type:'car',   pts:[[-33.45,26.20],[-33.9608,25.6022],[-33.9833,23.9167],
+                      [-34.0522,23.3716],[-34.0363,23.0474],[-33.9913,22.5849],
+                      [-34.4547,20.4329],[-34.8279,20.0077],[-34.419,19.2352],
+                      [-33.9249,18.4241]],                                                  dur:5000,lbl:'Garden Route'},
+  {type:'flight',pts:[[-33.9249,18.4241],[-30,22],[-26.2041,28.0473]],                     dur:1400,lbl:'CPT \u2192 JNB'},
+  {type:'flight',pts:[[-26.2041,28.0473],[-10,22],[5,18],[20,10],[30,5],[40.4168,-3.7038]],dur:3200,lbl:'JNB \u2192 MAD'},
+];
+var PAUSE_AT=[1,2,5];
+
+// icono vehículo
+var veh=L.marker(SEGS[0].pts[0],{
+  icon:L.divIcon({
+    html:'<div id="veh" style="font-size:26px;line-height:1;filter:drop-shadow(0 1px 2px rgba(0,0,0,.5));">&#9992;</div>',
+    iconSize:[32,32],iconAnchor:[16,16],className:''
+  }),
+  zIndexOffset:1000
+}).addTo(map);
+
+var A={running:false,seg:0,t:0,last:null,raf:null};
+
+function segLen(s){
+  var tot=0,p=s.pts;
+  for(var i=0;i<p.length-1;i++){var dy=p[i+1][0]-p[i][0],dx=p[i+1][1]-p[i][1];tot+=Math.sqrt(dy*dy+dx*dx);}
+  return tot;
+}
+function posAtT(s,t){
+  var tot=segLen(s),tgt=tot*t,acc=0,p=s.pts;
+  for(var i=0;i<p.length-1;i++){
+    var dy=p[i+1][0]-p[i][0],dx=p[i+1][1]-p[i][1],dist=Math.sqrt(dy*dy+dx*dx);
+    if(acc+dist>=tgt){var lt=(tgt-acc)/dist;return[p[i][0]+dy*lt,p[i][1]+dx*lt];}
+    acc+=dist;
+  }
+  return p[p.length-1];
+}
+function setIcon(type){
+  var el=document.getElementById('veh');
+  if(!el)return;
+  el.innerHTML=type==='flight'?'&#9992;':'&#128663;';
+  el.style.fontSize=type==='flight'?'26px':'20px';
+}
+function step(ts){
+  if(!A.running)return;
+  if(!A.last)A.last=ts;
+  var dt=ts-A.last;A.last=ts;
+  var seg=SEGS[A.seg];
+  A.t+=dt/seg.dur;
+  if(A.t>=1){
+    A.t=0;A.seg++;
+    if(A.seg>=SEGS.length){
+      A.running=false;
+      setTimeout(startAnim,2000);
+      return;
+    }
+    setIcon(SEGS[A.seg].type);
+    if(PAUSE_AT.indexOf(A.seg)!==-1){
+      A.running=false;
+      setTimeout(function(){A.last=null;A.running=true;requestAnimationFrame(step);},500);
+      return;
+    }
+  }
+  var pos=posAtT(seg,Math.min(A.t,1));
+  veh.setLatLng(pos);
+  document.getElementById('lbl').textContent=SEGS[A.seg].lbl;
+  A.raf=requestAnimationFrame(step);
+}
+function startAnim(){
+  if(A.raf)cancelAnimationFrame(A.raf);
+  A.seg=0;A.t=0;A.last=null;A.running=true;
+  setIcon(SEGS[0].type);
+  veh.setLatLng(SEGS[0].pts[0]);
+  A.raf=requestAnimationFrame(step);
+}
+function pauseAnim(){
+  A.running=false;
+  if(A.raf){cancelAnimationFrame(A.raf);A.raf=null;}
+}
+
+// ── leyenda ──────────────────────────────────────────────────────────────
+var leg=L.control({position:'bottomright'});
+leg.onAdd=function(){
+  var d=L.DomUtil.create('div');
+  d.innerHTML='<div style="background:white;padding:10px 14px;border:1px solid #DDD8D0;'
+    +'font-family:Lato,sans-serif;font-size:11px;line-height:2.1;">'
+    +'<div><span style="display:inline-block;width:22px;border-top:2px dashed #185FA5;'
+    +'vertical-align:middle;margin-right:6px;"></span>Vuelo</div>'
+    +'<div><span style="display:inline-block;width:22px;border-top:3px solid #2C4A3E;'
+    +'vertical-align:middle;margin-right:6px;"></span>Coche</div>'
+    +'<div><span style="display:inline-block;width:12px;height:12px;border-radius:50%;'
+    +'background:#1A1A1A;vertical-align:middle;margin-right:6px;border:2px solid white;'
+    +'box-shadow:0 1px 3px rgba(0,0,0,.3);"></span>Parada con noche</div>'
+    +'<div><span style="display:inline-block;width:8px;height:8px;border-radius:50%;'
+    +'background:#6B6560;vertical-align:middle;margin-right:10px;border:2px solid white;'
+    +'box-shadow:0 1px 3px rgba(0,0,0,.3);"></span>Parada de paso</div>'
+    +'</div>';
+  return d;
+};
+leg.addTo(map);
+
+// autostart
+setTimeout(startAnim,700);
+</script>
+</body>
+</html>"""
+    components.html(html, height=580)
+
+
 # ─── RESUMEN ─────────────────────────────────────────────────────────────────
 def render_summary():
     render_section_title("Vision general", "El Itinerario", top=40)
@@ -997,8 +1191,7 @@ def render_summary():
 
     render_flights()
 
-    render_section_title("Mapa interactivo", "La Ruta completa")
-    build_map(selected_day=0, height=460, key="map_summary")
+    render_animated_map()
 
     render_section_title("Notas de viaje", "Antes de partir")
     with st.container(border=True):
