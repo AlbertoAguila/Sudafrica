@@ -132,6 +132,57 @@ hr { border: none !important; border-top: 1px solid #DDD8D0 !important; margin: 
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: #F2EDE4; }
 ::-webkit-scrollbar-thumb { background: #2C4A3E; border-radius: 2px; }
+
+/* ── Responsive — móvil ────────────────────────────────────────────────── */
+@media (max-width: 768px) {
+    /* Ocultar sidebar en móvil */
+    [data-testid="stSidebar"] { display: none !important; }
+    [data-testid="collapsedControl"] { display: none !important; }
+
+    /* Hero: título más pequeño, menos padding */
+    .block-container { padding: 0 !important; }
+
+    /* Tabs: más compactos para que quepan los 9 */
+    .stTabs [data-baseweb="tab-list"] {
+        padding: 0 4px !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+    }
+    .stTabs [data-baseweb="tab"] {
+        font-size: 9px !important;
+        padding: 10px 5px !important;
+        letter-spacing: 0.5px !important;
+        white-space: nowrap !important;
+    }
+
+    /* Columnas de paradas: imagen arriba, texto abajo */
+    [data-testid="column"] {
+        min-width: 100% !important;
+        flex: 1 1 100% !important;
+    }
+
+    /* Imágenes: limitar altura en móvil */
+    [data-testid="stImage"] img {
+        max-height: 200px !important;
+        width: 100% !important;
+        object-fit: cover !important;
+    }
+
+    /* Stats bar: wrap en 2 columnas */
+    div[style*="display:flex"][style*="justify-content:space-around"] {
+        flex-wrap: wrap !important;
+        gap: 12px 0 !important;
+    }
+    div[style*="display:flex"][style*="justify-content:space-around"] > div {
+        flex: 1 1 30% !important;
+        min-width: 90px !important;
+    }
+
+    /* Tarjetas de vuelos: apilar verticalmente */
+    [data-testid="stVerticalBlockBorderWrapper"] [data-testid="column"] {
+        min-width: 100% !important;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -1176,18 +1227,119 @@ setTimeout(startAnim,700);
 def render_summary():
     render_section_title("Vision general", "El Itinerario", top=40)
 
-    st.markdown(
-        "| Dia | Fecha | Ruta | Km | Conduccion | Aviso |\n"
-        "|-----|-------|------|----|------------|-------|\n"
-        "| **Dia 25 Ago** | 25 Ago | Llegada PE — Woodlands Safari Estate | ~120 km | ~2h traslado | John X Safaris |\n"
-        "| **Dia 26-27 Ago** | 26-27 Ago | Caza en Woodlands Safari Estate | — | Dias completos en campamento | — |\n"
-        "| **Dia 28 Ago** | 28 Ago | Addo Elephant NP + Shamwari Game Reserve | ~300 km | Dia completo de safari | — |\n"
-        "| **Dia 29 Ago** | 29 Ago | Port Elizabeth — Tsitsikamma — Plettenberg Bay | 440 km | 5h | — |\n"
-        "| **Dia 30 Ago** | 30 Ago | Plett — Knysna — Wilderness — De Hoop | 310 km | 5h | Salir 8:30h |\n"
-        "| **Dia 31 Ago** | 31 Ago | De Hoop — Agulhas — Hermanus — Ciudad del Cabo | 382 km | 5h | Salir 7:30h |\n"
-        "| **Dia 1 Sep** | 1 Sep | Ciudad del Cabo — vuelo a Johannesburgo | — | — | Vuelo 17:25h |\n"
-        "| **Dia 2 Sep** | 2 Sep | Johannesburgo — Sandton y Melrose | — | — | Descanso |\n"
+    _N = ('<span style="background:#2C4A3E;color:white;padding:3px 10px;border-radius:4px;'
+          'font-size:11px;font-family:Lato,sans-serif;letter-spacing:1px;">NOCHE</span>')
+    _V = ('<span style="background:#185FA5;color:white;padding:3px 10px;border-radius:4px;'
+          'font-size:11px;font-family:Lato,sans-serif;letter-spacing:1px;">VUELO</span>')
+    _vb = ('<span style="background:#185FA5;color:white;padding:2px 7px;border-radius:3px;'
+           'font-size:10px;font-family:Lato,sans-serif;letter-spacing:1px;">VUELO</span>')
+    _cb = ('<span style="background:#4A7A68;color:white;padding:2px 7px;border-radius:3px;'
+           'font-size:10px;font-family:Lato,sans-serif;letter-spacing:1px;">COCHE</span>')
+
+    rows = [
+        ("#FAFAF7", "25 Ago",
+         "Madrid &rarr; Johannesburgo &rarr; Port Elizabeth &rarr; Woodlands",
+         f"{_vb} MAD&rarr;JNB ~9.000 km<br>{_vb} JNB&rarr;PLZ ~750 km<br>{_cb} PLZ&rarr;Woodlands ~120 km",
+         "Vuelos + ~2h traslado",
+         f"{_N}&nbsp; Woodlands Safari Estate"),
+        ("#F2EDE4", "26&ndash;27 Ago",
+         "Woodlands Safari Estate &mdash; dias completos en campamento",
+         "0 km (todo en el campamento)",
+         "&mdash;",
+         f"{_N}&nbsp; Woodlands Safari Estate"),
+        ("#FAFAF7", "28 Ago",
+         "Woodlands &rarr; Addo (~75 km) &rarr; Shamwari (~30 km) &rarr; Woodlands (~75 km)",
+         f"{_cb} ~180 km",
+         "~4h",
+         f"{_N}&nbsp; Woodlands Safari Estate"),
+        ("#F2EDE4", "29 Ago",
+         "Woodlands &rarr; Port Elizabeth &rarr; Tsitsikamma &rarr; Plettenberg Bay",
+         f"{_cb} ~373 km&nbsp; <small style='color:#6B6560;'>(120+195+58)</small>",
+         "~5h",
+         f"{_N}&nbsp; Plettenberg Bay"),
+        ("#FAFAF7", "30 Ago",
+         "Plett &rarr; Knysna &rarr; Wilderness &rarr; De Hoop",
+         f"{_cb} ~309 km&nbsp; <small style='color:#6B6560;'>(33+46+230 incl. 50 km pista)</small>",
+         "~5h",
+         f"{_N}&nbsp; De Hoop Nature Reserve"),
+        ("#F2EDE4", "31 Ago",
+         "De Hoop &rarr; Cabo Agulhas &rarr; Hermanus &rarr; Ciudad del Cabo",
+         f"{_cb} ~349 km&nbsp; <small style='color:#6B6560;'>(119+110+120)</small>",
+         "~5.5h",
+         f"{_N}&nbsp; Ciudad del Cabo"),
+        ("#FAFAF7", "1 Sep",
+         "Ciudad del Cabo (ma&ntilde;ana) &rarr; Aeropuerto CPT &rarr; Johannesburgo",
+         f"{_vb} CPT&rarr;JNB ~1.400 km &middot; FA102 &middot; 17:25h",
+         "2h 5m vuelo",
+         f"{_N}&nbsp; Johannesburgo"),
+        ("#F2EDE4", "2 Sep",
+         "Johannesburgo &mdash; Sandton y Melrose",
+         "0 km (descanso en la ciudad)",
+         "&mdash;",
+         f"{_N}&nbsp; Johannesburgo"),
+        ("#FAFAF7", "3 Sep",
+         "Johannesburgo &rarr; Madrid &nbsp;<small style='color:#6B6560;'>Llegan el 4 sep a las 05:05h</small>",
+         f"{_vb} JNB&rarr;MAD ~9.000 km &middot; 18:55h",
+         "~10h vuelo",
+         f"{_V}&nbsp; Vuelo de noche"),
+    ]
+
+    th = ("padding:12px 16px;text-align:left;font-size:10px;letter-spacing:2px;"
+          "font-weight:600;text-transform:uppercase;color:white;")
+    td_date = ("padding:12px 16px;color:#8B6914;font-weight:700;"
+               "white-space:nowrap;font-size:13px;")
+    td      = "padding:12px 16px;font-size:13px;line-height:1.6;"
+
+    header = (
+        f'<thead><tr style="background:#2C4A3E;">'
+        f'<th style="{th}">Fecha</th>'
+        f'<th style="{th}">Ruta</th>'
+        f'<th style="{th}">Km conduccion</th>'
+        f'<th style="{th}">Tiempo</th>'
+        f'<th style="{th}">Donde se duerme</th>'
+        f'</tr></thead>'
     )
+    body = "<tbody>"
+    for bg, fecha, ruta, km, tiempo, dormir in rows:
+        body += (
+            f'<tr style="background:{bg};">'
+            f'<td style="{td_date}">{fecha}</td>'
+            f'<td style="{td}">{ruta}</td>'
+            f'<td style="{td}">{km}</td>'
+            f'<td style="{td};white-space:nowrap;">{tiempo}</td>'
+            f'<td style="{td}">{dormir}</td>'
+            f'</tr>'
+        )
+    body += "</tbody>"
+
+    st.markdown(
+        f'<div style="overflow-x:auto;margin-bottom:8px;">'
+        f'<table style="width:100%;border-collapse:collapse;font-family:Lato,sans-serif;">'
+        f'{header}{body}</table></div>',
+        unsafe_allow_html=True,
+    )
+
+    totales = (
+        '<div style="display:flex;flex-wrap:wrap;gap:12px;padding:16px 0 24px;'
+        'font-family:Lato,sans-serif;">'
+    )
+    for val, lab in [
+        ("~1.231 km", "En coche"),
+        ("~20.150 km", "En vuelo"),
+        ("10 dias", "24 ago &mdash; 4 sep"),
+        ("9 noches", "Fuera de casa"),
+    ]:
+        totales += (
+            f'<div style="background:#F2EDE4;border:1px solid #DDD8D0;'
+            f'padding:12px 20px;flex:1;min-width:130px;text-align:center;">'
+            f'<div style="font-family:\'Playfair Display\',serif;font-size:22px;'
+            f'font-weight:600;color:#1A1A1A;">{val}</div>'
+            f'<div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;'
+            f'color:#6B6560;margin-top:4px;">{lab}</div>'
+            f'</div>'
+        )
+    totales += '</div>'
+    st.markdown(totales, unsafe_allow_html=True)
 
     render_flights()
 
